@@ -1,0 +1,21 @@
+# [Apple Push] Some questions that often arise in Apple’s new agreement have already been used in the group push version.
+
+What is the difference between thread and process?
+Processes and threads are the basic units of program operations experienced by the operating system, and the system uses basic units to implement application concurrency.
+The main difference between procedures and threads is that they are different methods of operating system resource management. The process has a separate address space. After the process crashes, it will not affect other processes in protected mode, and the thread is just a different execution path within a process. The thread has its own stack and some variables, but there is no separate address space between threads, and the thread has died. It is equal to the entire process, so multi-process programs are more powerful than multi-threaded programs, but it costs in the process. The resources are very large and the efficiency is poor. However, for certain requirements, to perform concurrent operations on certain variables, only threads can be used.
+
+Management method: For the stack, it is managed automatically by the compiler. There is no need to control it; for the heap, the release effort is controlled by the programmer and it is easy to generate a MemoryLeak.
+Application size:
+
+Stack: Under Windows, the stack is a data structure that extends to low addresses, which is a contiguous area of memory. This statement means that the stack address and the maximum stack capacity are pre-specified by the system. Under Windows, the stack size is 2M (1M for more statements, summary is always constant at compile time), and if the application's space exceeds the remaining space of the stack, an overflow will be prompted. Therefore, the stack can be smaller. Heap: The heap is a data structure that extends to high addresses, which is a non-contiguous area of memory. This is because the system stores free memory addresses in a linked list, which is naturally discontinuous, and the traversal direction of the linked list is from low address to high address. The size of the heap is limited to the effective virtual memory in the computer system. It can be seen that the obtained space is flexible and it is relatively large.
+Fragmentation problem: For the heap, frequent new/deletion will inevitably lead to discontinuous memory space, resulting in a large amount of fragmentation, which reduces program efficiency. With a stack, there is no such problem because the stack is the first queue and it is one of them, so it will never have a block of memory from the middle of the stack.
+
+
+Assignment: The heap is dynamically allocated, there is no static allocation of the stack. There are two types of allocation: static allocation and dynamic allocation. Static allocation is a compiler completion, such as a deflection variable. Dynamic allocation is allocated through the AlloCA function, but dynamic allocation and stack stacking are different. His dynamic allocation is issued by the compiler without implementing it.
+Allocation efficiency: The stack is a data structure provided by the machine system. The computer provides support in the underlying stack: the address of the stack is allocated, and the stack within the stack has special instructions that determine the efficiency of the stack. . The stack is provided by the C/C++ function library, and its mechanism is very complex.
+5. Object-c memory management?
+
+Using new, alloc and copy methods
+When you create an object, the object's retention counter value is 1. When you no longer use the object, you must send a release or auto-release message to the object. This object will be destroyed at the end of life.
+When you get an object via any other method, assuming the object has a retain counter value of 1 and is set to autorelease, you don't need to do anything to ensure the object is cleared. If you will complete within the period of this object, you need to retain it and make sure it is released when the operation completes.
+If you have retained objects, you need to (eventually) release or autorelease the objects. You must keep the number of reserved methods and used methods.
